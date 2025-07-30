@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserController {
 
@@ -28,5 +28,10 @@ public class UserController {
     @GetMapping("/{userId}/validate")
     public  ResponseEntity<Boolean> validateUserById(@PathVariable String userId){
         return ResponseEntity.ok(userService.existUserById(userId));
+    }
+
+    @GetMapping("/test")
+    public  String testConnection(){
+        return "we are live";
     }
 }
