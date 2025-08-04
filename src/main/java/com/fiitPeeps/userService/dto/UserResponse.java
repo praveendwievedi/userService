@@ -9,6 +9,7 @@ import java.time.LocalTime;
 @Data
 public class UserResponse {
     private String userId;
+    private String keycloakId;
     private String email;
     private String firstName;
     private String lastName;

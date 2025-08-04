@@ -31,7 +31,18 @@ public class UserService {
     public UserResponse registerUser(@Valid RegisterRequest request) {
 //        System.out.println(request.getEmail());
         if(repo.existsByEmail(request.getEmail())){
-            throw  new RuntimeException("User already exists");
+            UserModel user=repo.findByEmail(request.getEmail());
+            UserModel existingUser=repo.save(user);
+            UserResponse userResponse=new UserResponse();
+            userResponse.setEmail(existingUser.getEmail());
+            userResponse.setKeycloakId(existingUser.getKeycloakId());
+            userResponse.setPassword(existingUser.getPassword());
+            userResponse.setFirstName(existingUser.getFirstName());
+            userResponse.setLastName(existingUser.getLastName());
+            userResponse.setUserId(existingUser.getUserId());
+            userResponse.setCreatedAt(existingUser.getCreatedAt());
+            userResponse.setUpdatedAt(existingUser.getUpdatedAt());
+            return userResponse;
         }
         UserModel user=new UserModel();
         user.setEmail(request.getEmail());
@@ -40,13 +51,13 @@ public class UserService {
         user.setLastName(request.getLastName());
         UserModel savedUser=repo.save(user);
         UserResponse userResponse=new UserResponse();
-        userResponse.setEmail(user.getEmail());
-        userResponse.setPassword(user.getPassword());
-        userResponse.setFirstName(user.getFirstName());
-        userResponse.setLastName(user.getLastName());
-        userResponse.setUserId(user.getUserId());
-        userResponse.setCreatedAt(user.getCreatedAt());
-        userResponse.setUpdatedAt(user.getUpdatedAt());
+        userResponse.setEmail(savedUser.getEmail());
+        userResponse.setPassword(savedUser.getPassword());
+        userResponse.setFirstName(savedUser.getFirstName());
+        userResponse.setLastName(savedUser.getLastName());
+        userResponse.setUserId(savedUser.getUserId());
+        userResponse.setCreatedAt(savedUser.getCreatedAt());
+        userResponse.setUpdatedAt(savedUser.getUpdatedAt());
         return  userResponse;
     }
 
